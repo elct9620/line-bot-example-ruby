@@ -5,6 +5,7 @@ source "https://rubygems.org"
 gem 'sinatra'
 gem 'puma'
 gem 'puma-heroku'
+gem 'line-bot-lite'
 
 group :development do
   gem 'foreman', require: false

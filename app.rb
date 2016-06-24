@@ -1,8 +1,6 @@
 
-require './client'
-
 def client
-  @client ||= Client.new(
+  @client ||= Line::Bot::Client.new(
     channel_id: ENV['LINE_CHANNEL_ID'],
     channel_secret: ENV['LINE_CHANNEL_SECRET'],
     channel_mid: ENV['LINE_CHANNEL_MID']
@@ -17,7 +15,7 @@ class Application < Sinatra::Base
 
   post '/callback' do
     signature = request.env['HTTP_X_LINE_CHANNELSIGNATURE']
-    unless client.validate_signature(request.body.read, signature)
+    unless client.certentials.validate_signature?(request.body.read, signature)
       error 400 do 'Bad Request' end
     end
 
@@ -27,12 +25,10 @@ class Application < Sinatra::Base
 
     result.each do |message|
       case message['eventType']
-      when "138311609000106303"
-        p "Sending Response..."
+      when Line::Bot::Receive::EventType::MESSAGE
         client.send_text(message['content']['from'], message['content']['text'])
       end
     end
-
 
     "OK"
   end

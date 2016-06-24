@@ -3,6 +3,7 @@ GEM
   specs:
     foreman (0.82.0)
       thor (~> 0.19.1)
+    line-bot-lite (0.1.0)
     puma (3.4.0)
     puma-heroku (1.0.0)
       puma (~> 3.0)
@@ -21,6 +22,7 @@ PLATFORMS
 
 DEPENDENCIES
   foreman
+  line-bot-lite
   puma
   puma-heroku
   sinatra
