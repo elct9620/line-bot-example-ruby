@@ -97,8 +97,12 @@ class Request
     payload = {
       to: to,
       toChannel: to_channel_id,
-      eventType: messageType,
-      content: content
+      eventType: "138311608800106203",
+      content: {
+        contentType: 1,
+        toType: 1,
+        text: content
+      }
 
     }
 

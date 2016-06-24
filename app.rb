@@ -26,8 +26,6 @@ class Application < Sinatra::Base
     result = json['result']
 
     result.each do |message|
-      p message
-      p message['eventType']
       case message['eventType']
       when "138311609000106303"
         p "Sending Response..."
