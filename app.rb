@@ -25,8 +25,13 @@ class Application < Sinatra::Base
     json = JSON.parse(request.body.read)
     result = json['result']
 
-    puts "Valid!!"
-    p result
+    result.each do |message|
+      case message['content']['eventType']
+      when 138311609000106303
+        client.send_text(message['content']['from'], message['content']['text'])
+      end
+    end
+
 
     "OK"
   end
