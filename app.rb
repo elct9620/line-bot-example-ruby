@@ -1,4 +1,5 @@
 require 'line/bot'
+require 'json'
 
 def client
   @client ||= Line::Bot::Client.new(
