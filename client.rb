@@ -59,7 +59,7 @@ class Client
       config.endpoint = 'https://trialbot-api.line.me/v1'
       config.endpoint_path = '/events'
       config.credentials = credentials
-      config.content = content
+      config.content = message
       config.messageType = 1
       config.httpclient = httpclient
     end
