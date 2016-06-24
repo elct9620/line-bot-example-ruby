@@ -95,7 +95,7 @@ class Request
 
   def payload
     payload = {
-      to: to,
+      to: [to],
       toChannel: to_channel_id,
       eventType: "138311608800106203",
       content: {
