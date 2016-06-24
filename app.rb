@@ -26,6 +26,7 @@ class Application < Sinatra::Base
     result = json['result']
 
     result.each do |message|
+      p message['content']['eventType']
       case message['content']['eventType']
       when 138311609000106303
         client.send_text(message['content']['from'], message['content']['text'])
