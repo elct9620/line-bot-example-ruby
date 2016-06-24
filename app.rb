@@ -27,7 +27,7 @@ class Application < Sinatra::Base
 
     result.each do |message|
       case message['eventType']
-      when Line::Bot::Receive::EventType::MESSAGE
+      when Line::Bot::Receive::EventType::MESSAGE.to_s
         client.send_text(message['content']['from'], message['content']['text'])
       end
     end
