@@ -21,7 +21,12 @@ class Application < Sinatra::Base
       error 400 do 'Bad Request' end
     end
 
+    request.env.body.rewind
+    json = JSON.parse(body.read)
+    result = json['result']
+
     puts "Valid!!"
+    p result
 
     "OK"
   end

@@ -1,6 +1,23 @@
 
+require 'json'
 require 'base64'
 require 'net/http'
+
+class BotHTTPClient
+  def http(uri)
+    http = Net::HTTP.new(uri.host, uri.port)
+    if uri.scheme == "https"
+      http.use_ssl = true
+    end
+
+    http
+  end
+
+  def post(url, payload, header = {})
+    uri = URI(url)
+    http(uri).post(uri.request_uri, payload, header)
+  end
+end
 
 class Client
 
@@ -10,6 +27,8 @@ class Client
     options.each do |key, value|
       instance_variable_set("@#{key}", value)
     end
+
+    @httpclient ||= BotHTTPClient.new
   end
 
   def credentials
@@ -33,6 +52,21 @@ class Client
     variable_secure_compare(channel_signature, signature)
   end
 
+  def send_text(to_mid, message)
+    request = Request.new do |config|
+      config.to = to_mid
+      config.to_channel_id = 1383378250
+      config.endpoint = 'https://trialbot-api.line.me/v1'
+      config.endpoint_path = '/events'
+      config.credentials = credentials
+      config.message = content
+      config.messageType = 1
+      config.httpclient = httpclient
+    end
+
+    request.post
+  end
+
   private
 
   def variable_secure_compare(a, b)
@@ -49,4 +83,39 @@ class Client
     res == 0
   end
 
+end
+
+class Request
+
+  attr_accessor :to, :to_channel_id, :messageType, :content, :credentials, :httpclient, :endpoint, :endpoint_path
+
+  def initialize
+    yield(self) if block_given?
+  end
+
+  def payload
+    payload = {
+      to: to,
+      toChannel: to_channel_id,
+      eventType: messageType,
+      content: content
+
+    }
+
+    payload.to_json
+  end
+
+  def header
+    header = {
+      'Content-Type' => 'application/json; charset=UTF-8',
+      'User-Agent' => 'MOHO-Bot/1.0.0'
+    }
+    hash = credentials.inject({}) { |h, (k, v)| h[k] = v.to_s; h }
+
+    header.merge(hash)
+  end
+
+  def post
+    httpclient.post(endpoint + endpoint_path, payload, header)
+  end
 end
