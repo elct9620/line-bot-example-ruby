@@ -61,7 +61,7 @@ class Client
       config.credentials = credentials
       config.content = message
       config.messageType = 1
-      config.httpclient = httpclient
+      config.httpclient = @httpclient
     end
 
     request.post
