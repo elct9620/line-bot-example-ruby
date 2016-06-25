@@ -10,10 +10,12 @@ def client
 end
 
 def handle_message(event)
+  p event.content
   case event.content
   when Line::Bot::Message::Text
     client.send_text(event.from_mid, event.content[:text])
   when Line::Bot::Message::Image
+    p "Got image!"
     client.send_image(event.from_mid, event.content[:image_url], event.content[:preview_url])
   end
 
