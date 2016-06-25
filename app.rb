@@ -10,13 +10,11 @@ def client
 end
 
 def handle_message(event)
-  p event.content
   case event.content
   when Line::Bot::Message::Text
     client.send_text(event.from_mid, event.content[:text])
   when Line::Bot::Message::Image
-    p "Got image!"
-    client.send_image(event.from_mid, event.content[:image_url], event.content[:preview_url])
+    client.send_image(event.from_mid, "http://i.imgur.com/vAqriIZ.jpg", "http://i.imgur.com/vAqriIZ.jpg")
   end
 
 end
@@ -36,7 +34,7 @@ class Application < Sinatra::Base
     request.body.rewind
     events = Line::Bot::Response.new(request.body.read)
     request.body.rewind
-    p request.body.read
+    puts request.body.read
 
 
     events.each do |event|
