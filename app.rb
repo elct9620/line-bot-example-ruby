@@ -9,6 +9,16 @@ def client
   )
 end
 
+def handle_message(message)
+  case event.content
+  when Line::Bot::Message::ext
+    client.send_text(event.from_mid, event.content[:text])
+  when Line::Bot::Message::Image
+    client.send_image(event.from_mid, event.content[:image_url], event.content[:preview_url])
+  end
+
+end
+
 class Application < Sinatra::Base
 
   get '/' do
@@ -27,7 +37,7 @@ class Application < Sinatra::Base
     events.each do |event|
       case event.event_type
       when Line::Bot::Receive::EventType::MESSAGE
-        client.send_text(event.from_mid, event.content[:text])
+        handle_message(event)
       end
     end
 
