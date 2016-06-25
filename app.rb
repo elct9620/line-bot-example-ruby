@@ -35,6 +35,9 @@ class Application < Sinatra::Base
 
     request.body.rewind
     events = Line::Bot::Response.new(request.body.read)
+    request.body.rewind
+    p request.body.read
+
 
     events.each do |event|
       case event.event_type
