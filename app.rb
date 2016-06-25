@@ -17,18 +17,17 @@ class Application < Sinatra::Base
 
   post '/callback' do
     signature = request.env['HTTP_X_LINE_CHANNELSIGNATURE']
-    unless client.certentials.validate_signature?(request.body.read, signature)
+    unless client.certentials.validate_signature(request.body.read, signature)
       error 400 do 'Bad Request' end
     end
 
     request.body.rewind
-    json = JSON.parse(request.body.read)
-    result = json['result']
+    events = Line::Bot::Response.new(request.body.read)
 
-    result.each do |message|
-      case message['eventType']
-      when Line::Bot::Receive::EventType::MESSAGE.to_s
-        client.send_text(message['content']['from'], message['content']['text'])
+    events.each do |event|
+      case event.event_type
+      when Line::Bot::Receive::EventType::MESSAGE
+        client.send_text(event.from_mid, event.content.text)
       end
     end
 
