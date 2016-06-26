@@ -31,11 +31,12 @@ def handle_message(event)
   when Line::Bot::Message::Image
     puts "Got image with ID: #{event.id}"
 
+    expire_time_in_seconds = 5 * 60
     hash = SecureRandom.hex(24)
-    redis.set hash, get_image_information(event.id).to_json
+    redis.set hash, get_image_information(event.id).to_json, ex: expire_time_in_seconds
 
     url = "#{ENV['APP_HOST']}/image/#{hash}"
-    client.send_text(event.from_mid, url)
+    client.send_image(event.from_mid, url, url)
   end
 
 end
