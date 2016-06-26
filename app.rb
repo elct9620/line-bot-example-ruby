@@ -48,7 +48,7 @@ class Application < Sinatra::Base
 
   get '/image/:id' do
     data = redis.get(params['id'])
-    error { "Image Not Found" } if data.nil?
+    error 404, -> { "Image Not Found" } if data.nil?
     data = JSON.parse(data)
 
     content_type data[:type]
