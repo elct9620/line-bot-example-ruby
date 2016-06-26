@@ -1,5 +1,7 @@
 require 'line/bot'
 require 'json'
+require 'base64'
+require 'securerandom'
 
 def client
   @client ||= Line::Bot::Client.new(
@@ -9,13 +11,31 @@ def client
   )
 end
 
+def redis
+  @redis ||= Redis.new(url: ENV['REDIS_URL'])
+end
+
+def get_image_information(id)
+  response = client.get_image(id)
+
+  {
+    type: response['Content-Type'],
+    body: Base64.strict_encode(response.body)
+  }
+end
+
 def handle_message(event)
   case event.content
   when Line::Bot::Message::Text
     client.send_text(event.from_mid, event.content[:text])
   when Line::Bot::Message::Image
     puts "Got image with ID: #{event.id}"
-    client.send_image(event.from_mid, "http://i.imgur.com/vAqriIZ.jpg", "http://i.imgur.com/vAqriIZ.jpg")
+
+    hash = SecureRandom.hex(24)
+    redis.set hash, get_image_information(event.id).to_json
+
+    url = "#{ENV['APP_HOST']}/image/#{hash}"
+    client.send_text(event.from_mid, url)
   end
 
 end
@@ -24,6 +44,15 @@ class Application < Sinatra::Base
 
   get '/' do
     'Hello World'
+  end
+
+  get '/image/:id' do
+    data = redis.get(params['id'])
+    error { "Image Not Found" } if data.nil?
+    data = JSON.parse(data)
+
+    content_type data[:type]
+    Base64.strict_decode64(data[:body])
   end
 
   post '/callback' do

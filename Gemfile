@@ -6,6 +6,7 @@ gem 'sinatra'
 gem 'puma'
 gem 'puma-heroku'
 gem 'line-bot-lite'
+gem 'redis'
 
 group :development do
   gem 'foreman', require: false
