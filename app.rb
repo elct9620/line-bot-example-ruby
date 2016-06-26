@@ -14,6 +14,7 @@ def handle_message(event)
   when Line::Bot::Message::Text
     client.send_text(event.from_mid, event.content[:text])
   when Line::Bot::Message::Image
+    puts "Got image with ID: #{event.id}"
     client.send_image(event.from_mid, "http://i.imgur.com/vAqriIZ.jpg", "http://i.imgur.com/vAqriIZ.jpg")
   end
 
