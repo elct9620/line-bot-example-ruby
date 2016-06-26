@@ -51,8 +51,10 @@ class Application < Sinatra::Base
     error 404 do "Image Not Found" end if data.nil?
     data = JSON.parse(data)
 
-    content_type data[:type]
-    Base64.strict_decode64(data[:body])
+    content_type data['type']
+    Base64.strict_decode64(data['body'])
+
+    "OK"
   end
 
   post '/callback' do
