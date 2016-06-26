@@ -20,7 +20,7 @@ def get_image_information(id)
 
   {
     type: response['Content-Type'],
-    body: Base64.strict_encode(response.body)
+    body: Base64.strict_encode64(response.body)
   }
 end
 
