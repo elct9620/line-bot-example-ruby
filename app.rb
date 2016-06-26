@@ -53,8 +53,6 @@ class Application < Sinatra::Base
 
     content_type data['type']
     Base64.strict_decode64(data['body'])
-
-    "OK"
   end
 
   post '/callback' do
