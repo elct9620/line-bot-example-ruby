@@ -23,7 +23,9 @@ module Application
 
       def exists?(context)
         return context.is_a?(Context) unless context.is_a?(String)
+        p "Is String"
         return false unless Object.const_defined?(context)
+        p "Is defined"
         Object.const_get(context).is_a?(Context)
       end
     end
