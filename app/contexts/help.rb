@@ -10,10 +10,10 @@ module Application
     def process_text(event, text)
       case text
       when "Upload"
-        Context.store(event.from_mid, UploadContext)
+        Context.store(event.from_mid, UploadContext.name)
         return "Please upload a image for me"
       when "Echo"
-        Context.store(event.from_mid, EchoContext)
+        Context.store(event.from_mid, EchoContext.name)
         return "Please send any thing for me"
       end
     end
