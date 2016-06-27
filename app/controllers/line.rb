@@ -29,7 +29,7 @@ class LineController < Application::Base
   end
 
   def process_message(event)
-    context = Context.restore(event.from_mid)
+    context = Application::Context.restore(event.from_mid)
     context.process(event)
   end
 end
