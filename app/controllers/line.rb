@@ -6,9 +6,10 @@ class LineController < Application::Base
   end
 
   post '/' do
-    error 400, "Bad Request" unless is_valid_request?(request.body, request.env['HTTP_X_LINE_CHANNELSIGNATURE'])
+    error 400, "Bad Request" unless is_valid_request?(request.body.read, request.env['HTTP_X_LINE_CHANNELSIGNATURE'])
 
-    events = Line::Bot::Response.new(request.body)
+    request.body.rewind
+    events = Line::Bot::Response.new(request.body.read)
     events.each do |event|
       process_event(event)
     end
