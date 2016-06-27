@@ -2,6 +2,10 @@ require 'line/bot'
 
 class LineController < Application::Base
   get '/' do
+    error 400, "Bad Request"
+  end
+
+  post '/' do
     error 400, "Bad Request" unless is_valid_request?(request.body, request.env['HTTP_X_LINE_CHANNELSIGNATURE'])
 
     events = Line::Bot::Response.new(request.body)
