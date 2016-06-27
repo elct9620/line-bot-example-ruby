@@ -2,10 +2,8 @@ module Application
   class HelpContext < Context
 
     def process(event)
-      response = "Please type Upload or Echo to next process"
       response = process_text(event.content[:text]) if is_text?(event)
-      p response
-      p event
+      response ||= "Please type Upload or Echo to next process"
       LineAPI.client.send_text(event.from_mid, response)
     end
 
