@@ -16,6 +16,7 @@ module Application
       end
 
       def store(user_id, context)
+        puts "User next context: #{context.class.name}"
         Cache.set("user/#{user_id}", get(context).class.name, ex: 5 * 60)
       end
 
