@@ -3,7 +3,8 @@ module Application
     class << self
       def restore(user_id)
         user_context = Cache.get("user/#{user_id}")
-        user_context ||= 'HelpContext'
+        user_context ||= 'Application::HelpContext'
+        puts "User Context: #{user_context}"
         get(user_context)
       end
 
