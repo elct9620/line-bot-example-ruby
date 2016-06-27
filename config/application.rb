@@ -23,3 +23,5 @@ require 'models/cache'
 # Context
 require 'contexts/base'
 require 'contexts/help'
+require 'contexts/upload'
+require 'contexts/echo'

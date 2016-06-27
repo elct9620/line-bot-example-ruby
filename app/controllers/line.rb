@@ -29,11 +29,7 @@ class LineController < Application::Base
   end
 
   def process_message(event)
-    case event.content
-    when Line::Bot::Message::Text
-      LineAPI.client.send_text(event.from_mid, "Receive Test!")
-    when Line::Bot::Message::Image
-      LineAPI.client.send_text(event.from_mid, "Receive Image")
-    end
+    context = Context.restore(event.from_mid)
+    context.process(event)
   end
 end
