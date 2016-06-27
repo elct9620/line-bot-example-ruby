@@ -3,7 +3,7 @@ module Application
 
     def process(event)
       response = process_text(event, event.content[:text]) if is_text?(event)
-      response ||= "Please type Upload or Echo to next process"
+      response ||= "Please type Upload or Echo, Image to next process. Type Help for command detial."
       LineAPI.client.send_text(event.from_mid, response)
     end
 
@@ -15,7 +15,15 @@ module Application
       when "Echo"
         Context.store(event.from_mid, EchoContext.name)
         return "Please send any thing for me"
+      when "Help", "?"
+        return %{
+          The robot can process below command ---
+          Upload: upload a image
+          Echo: return same message from you
+          Image: get latest upload image
+        }
       when "Image"
+        # TODO: Split below code into it's own context
         latest_image_hash = get_latest_image_hash
         if latest_image_hash
           image_url = "#{ENV['APP_HOST']}/image/#{latest_image_hash}"
