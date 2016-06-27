@@ -15,7 +15,7 @@ module Application
       end
 
       def store(user_id, context)
-        Cache.set("user/#{user_id}", get(context).name)
+        Cache.set("user/#{user_id}", get(context).class.name)
       end
 
       def exists?(context)
