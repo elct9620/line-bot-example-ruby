@@ -15,7 +15,22 @@ module Application
       when "Echo"
         Context.store(event.from_mid, EchoContext.name)
         return "Please send any thing for me"
+      when "Image"
+        latest_image_hash = get_latest_image_hash
+        if latest_image_hash
+          image_url = "#{ENV['APP_HOST']}/image/#{latest_image_hash}"
+          LineAPI.client.send_image(event.from_mid, image_url, image_url)
+          return "Ok, the latest image I alreay sent to you."
+        end
+        return "Oops, there seems no new image..."
       end
+    end
+
+    def get_latest_image_hash
+      image_hash = Cache.get("image/last")
+      return false if image_hash.nil?
+      return false unless Cache.exists?("image/#{image_hash}")
+      image_hash
     end
 
   end

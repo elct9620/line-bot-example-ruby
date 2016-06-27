@@ -15,5 +15,9 @@ class Cache
       connect.get(key)
     end
 
+    def exists?(key)
+      connect.exists(key)
+    end
+
   end
 end
