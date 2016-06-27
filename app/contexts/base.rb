@@ -9,6 +9,7 @@ module Application
 
       def get(context)
         context = HelpContext.name unless exists?(context)
+        @context ||= {}
         @context[context.to_sym] ||= Object.const_get(context).new
       end
 
