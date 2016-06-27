@@ -7,7 +7,7 @@ class Cache
       @redis ||= Redis.new(options)
     end
 
-    def set(key, value, options)
+    def set(key, value, options = {})
       connect.set(key, value, options)
     end
 
