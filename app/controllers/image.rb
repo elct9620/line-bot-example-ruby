@@ -8,7 +8,7 @@ class ImageController < Application::Base
   end
 
   get '/:id' do
-    data = Cache.get(params['id'])
+    data = Cache.get("image/#{params['id']}")
     error 404, "Image Not Found" if data.nil?
     data = JSON.parse(data)
 
