@@ -19,7 +19,7 @@ module Application
         LineAPI.client.send_text(event.from_mid, "Invalid type of image!")
       end
 
-      Content.store(event.from_mid, HelpContext.name)
+      Context.store(event.from_mid, HelpContext)
     end
 
     def get_image_information(id)
