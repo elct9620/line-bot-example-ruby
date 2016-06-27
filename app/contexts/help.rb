@@ -1,0 +1,2 @@
+class HelpContext < Context
+end
