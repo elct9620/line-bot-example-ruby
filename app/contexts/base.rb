@@ -26,6 +26,7 @@ module Application
         p "Is String"
         return false unless Object.const_defined?(context)
         p "Is defined"
+        p context
         p Object.const_get(context)
         p Object.const_get(context).is_a?(Context)
         Object.const_get(context).is_a?(Context)
