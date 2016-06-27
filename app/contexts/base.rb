@@ -9,6 +9,7 @@ module Application
 
       def get(context)
         context = HelpContext.name unless exists?(context)
+        context = context.name if context.is_a?(Class)
         @context ||= {}
         @context[context.to_sym] ||= Object.const_get(context).new
       end
@@ -18,6 +19,7 @@ module Application
       end
 
       def exists?(context)
+        return context.is_a?(Context) unless context.is_a?(String)
         return false unless Object.const_defined?(context)
         Object.const_get(context).is_a?(Context)
       end
