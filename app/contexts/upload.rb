@@ -21,14 +21,14 @@ module Application
 
       Content.store(event.from_mid, HelpContext)
     end
-  end
 
-  def get_image_information(id)
-    response = LineAPI.client.get_image(id)
+    def get_image_information(id)
+      response = LineAPI.client.get_image(id)
 
-    {
-      type: response['Content-Type'],
-      body: Base64.strict_encode64(response.body)
-    }
+      {
+        type: response['Content-Type'],
+        body: Base64.strict_encode64(response.body)
+      }
+    end
   end
 end
