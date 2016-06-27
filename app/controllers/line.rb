@@ -30,6 +30,7 @@ class LineController < Application::Base
 
   def process_message(event)
     context = Application::Context.restore(event.from_mid)
+    puts "Current Context: #{context.class.name}"
     context.process(event)
   end
 end
