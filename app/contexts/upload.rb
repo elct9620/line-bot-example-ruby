@@ -8,7 +8,7 @@ module Application
 
       if is_image?(event)
         image_hash = SecureRandom.hex(16)
-        Cache.set("image/#{image_hash}", get_image_information(event.id).to_json)
+        Cache.set("image/#{image_hash}", get_image_information(event.id).to_json, ex: 5 * 60)
         Cache.set("image/last", image_hash)
 
         image_url = "#{ENV['APP_HOST']}/image/#{image_hash}"
