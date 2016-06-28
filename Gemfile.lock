@@ -1,12 +1,9 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    blitline (2.8.0)
-      multi_json
     foreman (0.82.0)
       thor (~> 0.19.1)
     line-bot-lite (0.4.1)
-    multi_json (1.12.1)
     puma (3.4.0)
     puma-heroku (1.0.0)
       puma (~> 3.0)
@@ -25,7 +22,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  blitline
   foreman
   line-bot-lite
   puma
