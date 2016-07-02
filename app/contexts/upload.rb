@@ -7,7 +7,7 @@ module Application
     def process(event)
 
       if is_image?(event)
-        image_url = upload_to_s3(event.id)
+        image_url = upload_image(event.id)
         Cache.set("image/last", image_url)
 
         LineAPI.client.send_text(event.from_mid, "Ok, I got your image!")
