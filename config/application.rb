@@ -10,6 +10,7 @@ require './version'
 
 # API
 require 'api/line'
+require 'api/s3'
 
 # Controller
 require 'controllers/base'
