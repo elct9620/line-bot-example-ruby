@@ -24,9 +24,8 @@ module Application
         }
       when "Image"
         # TODO: Split below code into it's own context
-        latest_image_hash = get_latest_image_hash
+        image_url = get_latest_image_url
         if latest_image_hash
-          image_url = "#{ENV['APP_HOST']}/image/#{latest_image_hash}"
           LineAPI.client.send_image(event.from_mid, image_url, image_url)
           return "Ok, the latest image I alreay sent to you."
         end
@@ -34,11 +33,10 @@ module Application
       end
     end
 
-    def get_latest_image_hash
-      image_hash = Cache.get("image/last")
-      return false if image_hash.nil?
-      return false unless Cache.exists?("image/#{image_hash}")
-      image_hash
+    def get_latest_image_url
+      image_url = Cache.get("image/last")
+      return false if image_url.nil?
+      image_url
     end
 
   end

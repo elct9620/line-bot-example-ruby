@@ -7,11 +7,8 @@ module Application
     def process(event)
 
       if is_image?(event)
-        image_hash = SecureRandom.hex(16)
-        Cache.set("image/#{image_hash}", get_image_information(event.id).to_json, ex: 5 * 60)
-        Cache.set("image/last", image_hash)
-
-        image_url = "#{ENV['APP_HOST']}/image/#{image_hash}"
+        image_url = upload_to_s3(event.id)
+        Cache.set("image/last", image_url)
 
         LineAPI.client.send_text(event.from_mid, "Ok, I got your image!")
         LineAPI.client.send_image(event.from_mid, image_url, image_url)
@@ -22,13 +19,21 @@ module Application
       Context.store(event.from_mid, HelpContext)
     end
 
-    def get_image_information(id)
+    def upload_image(id)
       response = LineAPI.client.get_image(id)
+      upload_to_s3(response.body, response.header['Content-Type'])
+    end
 
-      {
-        type: response['Content-Type'],
-        body: Base64.strict_encode64(response.body)
-      }
+    # @return [String] S3 Public URL
+    def upload_to_s3(image_body, content_type)
+      API::S3.bucket.put_object({
+        acl: 'public-read', # Let image readable
+        key: SecureRandom.hex(16), # Random Image ID
+        body: image_body,
+        metadata: {
+          'Content-Type': content_type
+        }
+      }).public_url
     end
   end
 end
