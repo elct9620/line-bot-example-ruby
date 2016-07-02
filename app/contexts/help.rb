@@ -25,7 +25,7 @@ module Application
       when "Image"
         # TODO: Split below code into it's own context
         image_url = get_latest_image_url
-        if latest_image_hash
+        if image_url
           LineAPI.client.send_image(event.from_mid, image_url, image_url)
           return "Ok, the latest image I alreay sent to you."
         end
