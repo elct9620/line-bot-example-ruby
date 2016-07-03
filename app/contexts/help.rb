@@ -46,7 +46,7 @@ module Application
     end
 
     def show_product_list
-      products = JSON.parse(API::WooCommerce.products.parsed_response)
+      products = API::WooCommerce.products.parsed_response
       response = "Tell me ID which product you want delete"
       products.each do |product|
         response << "\n" << "#{product['id']} - #{product['name']}"
