@@ -72,7 +72,7 @@ module Application
     def do_confirm(event)
       response = "Ok, your new product creation is cancel"
       if is_text?(event) and event.content[:text] == "YES"
-        p API::WooCommerce.create_product({
+        API::WooCommerce.create_product({
           name: get_product(event.from_mid, "name"),
           description: get_product(event.from_mid, "description"),
           regular_price: get_product(event.from_mid, "price"),
@@ -82,7 +82,7 @@ module Application
               position: 0
             }
           ]
-        }).parsed_response
+        })
         response = "Ok, your new product is created"
       end
 
