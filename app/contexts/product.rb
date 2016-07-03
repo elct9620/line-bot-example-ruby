@@ -66,6 +66,7 @@ module Application
 
     def set_image(event)
       return LineAPI.client.send_text(event.from_mid, "Please send image to me") unless is_image?(event)
+      upload_image(event)
     end
 
     def do_confirm(event)
@@ -89,7 +90,7 @@ module Application
       Context.store(event.from_mid, HelpContext)
     end
 
-    def upload_image(id)
+    def upload_image(event)
       response = LineAPI.client.get_image(id)
       hash = SecureRandom.hex(16)
       upload_to_s3(hash, response.body, response.header['Content-Type'])
