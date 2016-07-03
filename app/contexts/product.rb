@@ -95,7 +95,7 @@ module Application
       hash = SecureRandom.hex(16)
       upload_to_s3(hash, response.body, response.header['Content-Type'])
       set_product(event.from_mid, "image", "#{IMAGE_HOST}/#{hash}")
-      set_step(event.from_mid, "do_confirm")
+      set_step(event.from_mid, "confirm")
       LineAPI.client.send_text(event.from_mid, "Finally, send YES to me to create new product")
     end
 
