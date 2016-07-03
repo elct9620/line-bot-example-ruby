@@ -87,6 +87,7 @@ module Application
       end
 
       LineAPI.client.send_text(event.from_mid, response)
+      set_step(event.from_mid, "")
       Context.store(event.from_mid, HelpContext)
     end
 
