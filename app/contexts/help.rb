@@ -16,7 +16,7 @@ module Application
         Context.store(event.from_mid, EchoContext.name)
         return "Please send any thing for me"
       when "Product"
-        Context.store(event.from_mid, ProductContext)
+        Context.store(event.from_mid, ProductContext.name)
         return "Send 'New' to start create product"
       when "Help", "?"
         return %{
