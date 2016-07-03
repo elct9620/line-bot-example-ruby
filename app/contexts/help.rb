@@ -18,6 +18,9 @@ module Application
       when "Product"
         Context.store(event.from_mid, ProductContext.name)
         return "Send 'New' to start create product"
+      when "Delete"
+        Context.store(event.from_mid, DeleteContext.name)
+        return show_product_list
       when "Help", "?"
         return %{
           The robot can process below command ---
@@ -40,6 +43,15 @@ module Application
       image_url = Cache.get("image/last")
       return false if image_url.nil?
       image_url
+    end
+
+    def show_product_list
+      products = JSON.parse(API::WooCommerce.products.parsed_response)
+      response = "Tell me ID which product you want delete"
+      products.each do |product|
+        response << "\n" << "#{product['id']} - #{product['name']}"
+      end
+      response
     end
 
   end

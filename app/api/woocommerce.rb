@@ -16,6 +16,14 @@ module API
       def create_product(data)
         client.post("products", data)
       end
+
+      def delete_product(id)
+        client.delete("products/#{id}")
+      end
+
+      def products
+        client.get("products")
+      end
     end
   end
 end
