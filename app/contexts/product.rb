@@ -95,7 +95,7 @@ module Application
       response = LineAPI.client.get_image(event.id)
       content_type = response.header['Content-Type']
       hash = SecureRandom.hex(16)
-      extension = content_type.gsub(/image\/.+?/, '.')
+      extension = content_type.gsub(/image\//, '.\1')
       upload_to_s3("#{hash}#{extension}", response.body, content_type)
       set_product(event.from_mid, "image", "#{IMAGE_HOST}/#{hash}")
       set_step(event.from_mid, "confirm")
