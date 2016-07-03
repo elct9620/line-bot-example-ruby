@@ -15,6 +15,9 @@ module Application
       when "Echo"
         Context.store(event.from_mid, EchoContext.name)
         return "Please send any thing for me"
+      when "Product"
+        Context.store(event.from_mid, ProductContext)
+        return "Send 'New' to start create product"
       when "Help", "?"
         return %{
           The robot can process below command ---

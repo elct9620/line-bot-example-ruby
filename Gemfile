@@ -8,6 +8,7 @@ gem 'puma-heroku'
 gem 'line-bot-lite'
 gem 'redis'
 gem 'aws-sdk-resources'
+gem 'woocommerce_api'
 
 group :development do
   gem 'foreman', require: false

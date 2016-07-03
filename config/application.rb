@@ -11,6 +11,7 @@ require './version'
 # API
 require 'api/line'
 require 'api/s3'
+require 'api/woocommerce'
 
 # Controller
 require 'controllers/base'
