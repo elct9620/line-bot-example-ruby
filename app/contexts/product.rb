@@ -91,7 +91,7 @@ module Application
     end
 
     def upload_image(event)
-      response = LineAPI.client.get_image(id)
+      response = LineAPI.client.get_image(event.id)
       hash = SecureRandom.hex(16)
       upload_to_s3(hash, response.body, response.header['Content-Type'])
       set_product(event.from_mid, "image", "#{IMAGE_HOST}/#{hash}")
