@@ -2,7 +2,7 @@ module API
   class WooCommerce
     class << self
       def client
-        @client ||= WooCommerce::API.new(
+        @client ||= ::WooCommerce::API.new(
           ENV["WOOCOMMERCE_URL"],
           ENV["WOOCOMMERCE_KEY"],
           ENV["WOOCOMMERCE_SECRET"],
