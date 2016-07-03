@@ -93,18 +93,20 @@ module Application
 
     def upload_image(event)
       response = LineAPI.client.get_image(event.id)
+      content_type = response.header['Content-Type']
       hash = SecureRandom.hex(16)
-      upload_to_s3(hash, response.body, response.header['Content-Type'])
+      extension = content_type.gsub(/image\/.+?/, '.')
+      upload_to_s3("#{hash}#{extension}", response.body, content_type)
       set_product(event.from_mid, "image", "#{IMAGE_HOST}/#{hash}")
       set_step(event.from_mid, "confirm")
       LineAPI.client.send_text(event.from_mid, "Finally, send YES to me to create new product")
     end
 
     # @return [String] S3 Public URL
-    def upload_to_s3(hash, image_body, content_type)
+    def upload_to_s3(key, image_body, content_type)
       API::S3.bucket.put_object({
         acl: 'public-read', # Let image readable
-        key: hash, # Random Image ID
+        key: key, # Random Image ID
         body: image_body,
         metadata: {
           'Content-Type': content_type
