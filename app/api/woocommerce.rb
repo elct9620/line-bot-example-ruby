@@ -24,6 +24,10 @@ module API
       def products
         client.get("products")
       end
+
+      def validate_domain( domain )
+        client.get("domain", { domain: domain })
+      end
     end
   end
 end

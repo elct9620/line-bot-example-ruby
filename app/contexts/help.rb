@@ -21,6 +21,10 @@ module Application
       when "Delete", "刪除"
         Context.store(event.from_mid, DeleteContext.name)
         return show_product_list
+      when "Activate", "啟用商店", "啟用"
+        Context.store(event.from_mid, CreateSiteContext.name)
+        Cache.set("user/#{mid}/create_site/step", "domain", ex: 5 * 60)
+        return "請輸入要使用的商店網址，只接受小寫字母和數字"
       when "Help", "?", "幫助"
         return %{
           機器人目前支援以下指令：
@@ -28,6 +32,7 @@ module Application
           回聲：傳回相同的訊息（測試用）
           圖片：顯示最近上傳的圖片
           上架：上架商品到 bot.vcart.mobi
+          啟用：開通一個新商店
           刪除：刪除某個上架的商品
         }
       when "Image", "圖片"
