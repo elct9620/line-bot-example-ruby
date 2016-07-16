@@ -23,7 +23,7 @@ module Application
         return show_product_list
       when "Activate", "啟用商店", "啟用"
         Context.store(event.from_mid, CreateSiteContext.name)
-        Cache.set("user/#{mid}/create_site/step", "domain", ex: 5 * 60)
+        Cache.set("user/#{event.from_mid}/create_site/step", "domain", ex: 5 * 60)
         return "請輸入要使用的商店網址，只接受小寫字母和數字"
       when "Help", "?", "幫助"
         return %{
