@@ -47,7 +47,7 @@ module Application
       end
 
       result = API::WooCommerce.validate_domain(event.content[:text]).parsed_response
-      unless result["status"].nil?
+      if result["status"].nil?
         LineAPI.client.send_text(event.from_mid, "錯誤：#{result["message"]}")
         return false
       end
